@@ -68,17 +68,23 @@ public void displayBackward(){
     }
     public Link deleteFirst(){
         Link current=first;
-        first=first.next;
-        first.prev=null;
+        if(last==first){
+            last=first=null;
+        }else{
+            first=first.next;
+            first.prev=null;
+        }
         return current;
-
-        
     }
    
     public Link deleteLast(){
-        Link current=first;
-        last=last.prev;
-        last.next=null;
+        Link current=last;
+        if(last==first){
+            last=first=null;
+        }else{
+            last=last.prev;
+            last.next=null;
+        }
         return current;
         
     }
@@ -170,6 +176,8 @@ public class DeQueueLinkedList {
      
      dl.Display();
      dl.lDeQueue();
+     dl.rDeQueue();
+     dl.rDeQueue();
      dl.Display();
 
     }

@@ -1,75 +1,107 @@
-import java.util.Scanner;
+import java.io.*;
+import java.nio.file.FileStore;
+import java.util.*;
 
-class SparseMatrix{
-    int a[][],s[][],t[][];
-    int m,n;
-    int count;
 
-    public SparseMatrix(int x,int y){
-        m=x;
-        n=y;
-        a=new int[m][n];
-        count=0;
+class node{
+    public node next;
+    public int data;
+
+    public node(int d){
+        data=d;
     }
-    public void readMatrix(){
-        Scanner scn=new Scanner(System.in);
-        int k;
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                k=scn.nextInt();
-                if(k!=0){
-                    count++;
-                }
-                a[i][j]=k;
-            }
-        }
-        scn.close();
-    }
-
-    public void CreateSparse(){
-        s=new int[count+1][3];
-        s[0][0]=m;
-        s[0][1]=n;
-        s[0][2]=count;
-        int k=1;
-        System.out.println(count);
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(a[i][j]!=0){
-                    s[k][0]=i;
-                    s[k][1]=j;
-                    s[k][2]=a[i][j];
-                    k++;
-                }
+    public void displayLink(){
+        System.out.println(data);
     }
 }
+class CircularQueue{
+    private node first;
+    private node rear;
+
+    public CircularQueue(){
+        first=rear=null;
     }
-    public void sparseTranspose(){
-        t=new int[count+1][3];
-        for(int i=0;i<=count;i++){
-            for(int j=0;j<2;j++){
-                t[i][j]=s[j][i];
-            }
+
+    public boolean isEmpty(){
+        return first==null;
+    }
+    public void enQueue(int d){
+        node n=new node(d);
+        if(isEmpty()){
+            first=n;
+            rear=n;
+        }else{
+            rear.next=n;
         }
-    }
-    public void printsparse(){
         
-        for(int i=0;i<count+1;i++){
-            for(int j=0;j<3;j++){
-                System.out.print(s[i][j]+" ");
-            }
-            System.out.println("");
+        n.next=first;
+        rear=n;
+        System.out.println("Added");
+    }
+    public void deQueue(){
+        if(!isEmpty()){
+            if(rear==first){
+                first=rear=null;
+            }else{
+                first=first.next;
 
+                rear.next=first;
+                System.out.println("Deleted");
+
+            }
+        }else{
+            System.out.println("Queue is Empty");
         }
     }
-}
 
-class test{
+    public void displayQueue(){
+        
+            node current=first;
+            System.out.println("\nElements in Circular Queue are: ");
+            while(current!=null){
+                System.out.println(current.data);
+                current = current.next;
+			    if (current == first)
+			    {
+				current = null;
+			    }
+            }
+        
+    }
+
+}
+public class test {
     public static void main(String args[]){
-        SparseMatrix sp=new SparseMatrix(4, 3);
-        sp.readMatrix();
-        sp.CreateSparse();
-        sp.printsparse();
+        CircularQueue q=new CircularQueue();
+        Scanner scn=new Scanner(System.in);
+        int choice=0;
+        int d;
+       
+        do{
+            System.out.println("1.Insert\n2.Delete\n3.Display\n4.Exit");
+            System.out.println("Enter choice: ");
+            choice=scn.nextInt();
+            switch(choice){
+                case 1:
+                    System.out.println("Enter value: ");
+                    d=scn.nextInt();
+                    q.enQueue(d);
+                    break;
+                case 2:
+                    q.deQueue();
+                    break;
+                case 3:
+                    q.displayQueue();
+                    break;
+                case 4:
+                    break;
+                default:
+                    System.out.println("Something went wrong");
+            }
+    
+        }while(choice!=4);
+        scn.close();
 
     }
+
 }

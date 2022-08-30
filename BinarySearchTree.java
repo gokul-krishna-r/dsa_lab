@@ -230,7 +230,6 @@ class BinarySearch {
 
             while(!s.isEmpty()){
                 current=s.pop();
-                System.out.println(current.data+" ");
                 out.push(current.data);
                 if (current.lchild != null) {
                     s.push(current.lchild);
@@ -242,25 +241,23 @@ class BinarySearch {
             }
             System.out.println("PostOrder Traversal: ");
             while(!out.isEmpty()){
-                System.out.print(out.pop());
+                System.out.print(out.pop()+" ");
             }
 
             }
         }
         public void preOrderIterative(BinaryNode localRoot){
             // return if the tree is empty
-        if (root == null) {
+        if (localRoot == null) {
             return;
-        }
+        }else{
         Stack<BinaryNode> s = new Stack<>();
-        s.push(root);
+        s.push(localRoot);
         System.out.println("PreOrder Traversal: ");
-        // loop till stack is empty
         while (!s.isEmpty())
         {
             // pop a node from the stack and print it
             BinaryNode curr = s.pop();
-    
             System.out.print(curr.data + " ");
     
             // push the right child of the popped node into the stack
@@ -268,11 +265,12 @@ class BinarySearch {
                 s.push(curr.rchild);
             }
             if (curr.lchild != null) {
-                s.push(curr.rchild);
+                s.push(curr.lchild);
             }
 
         }
         }
+    }
     }
 
 	
@@ -302,6 +300,7 @@ public class BinarySearchTree{
         bs.insert(5);
         bs.search(5);
         System.out.println(bs.maxDepth(bs.root));
+        bs.preOrderIterative(bs.root);
         bs.postOrderIterative(bs.root);
         bs.levelOrder(bs.root);
         bs.inOrder(bs.root);

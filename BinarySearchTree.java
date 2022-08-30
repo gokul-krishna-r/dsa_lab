@@ -1,6 +1,80 @@
 import java.io.*;
 import java.util.*;
 
+
+class QueueNode{
+    public QueueNode next;
+    public BinaryNode data;
+
+    public QueueNode(BinaryNode d){
+        data=d;
+    }
+    public void displayLink(){
+        System.out.println(data);
+    }
+}
+class CircularQueue{
+    private QueueNode first;
+    private QueueNode rear;
+
+    public CircularQueue(){
+        first=rear=null;
+    }
+
+    public boolean isEmpty(){
+        return first==null;
+    }
+    public void enQueue(BinaryNode d){
+        QueueNode n=new QueueNode(d);
+        if(isEmpty()){
+            first=n;
+            rear=n;
+        }else{
+            rear.next=n;
+        }
+        
+        n.next=first;
+        rear=n;
+    }
+    public BinaryNode deQueue(){
+        QueueNode temp;
+        if(!isEmpty()){
+            if(rear==first){
+                temp=rear;
+                first=rear=null;
+            }else{
+                temp=first;
+                first=first.next;
+                rear.next=first;
+
+            }
+        }else{
+            temp=null;
+            System.out.println("Queue is Empty");
+        }
+
+        return temp.data;
+
+        
+    }
+
+    public void displayQueue(){
+        
+        QueueNode current=first;
+            System.out.println("\nElements in Circular Queue are: ");
+            while(current!=null){
+                System.out.println(current.data.data);
+                current = current.next;
+			    if (current == first)
+			    {
+				current = null;
+			    }
+            }
+        
+    }
+}
+
+
 class BinaryNode{
     public int data;
 	public int height;
@@ -36,7 +110,7 @@ class BinarySearch {
             BinaryNode parent;
             while(true){
                 parent=current;
-                if(i<current.data){
+                if(current.data>i){
                     current=current.lchild;
                     if(current==null){
                         parent.lchild=newNode;
@@ -47,12 +121,11 @@ class BinarySearch {
                     if(current==null){
                         parent.rchild=newNode;
                         return;
-                    }
+                    } 
                 }
             }
         }
     }
-
     public void search(int key){
         int flag=0;
         if(isEmpty()){
@@ -95,6 +168,7 @@ class BinarySearch {
             inOrder(localRoot.rchild);
         }
     }
+ 
 
     public void preOrder(BinaryNode localRoot){
         if(localRoot!=null){
@@ -111,16 +185,109 @@ class BinarySearch {
             localRoot.displayNode();
         }
     }
+    public int maxDepth(BinaryNode localRoot){
+        BinaryNode current=localRoot;
+        if(current==null){
+            return -1;
+        }else{
+            int lDepth= maxDepth(current.lchild);
+            int rDepth= maxDepth(current.rchild);
+            if(lDepth>rDepth){
+                return lDepth+1;
+            }else{
+                return rDepth+1;
+            }
+        }
+    }
+
+    public void levelOrder(BinaryNode localRoot){
+        CircularQueue q=new CircularQueue();
+        BinaryNode current=localRoot;
+        q.enQueue(current);
+        System.out.println("Level Order Traversal: ");
+        while(!q.isEmpty()){
+            current=q.deQueue();
+            System.out.print(current.data+" ");
+            if(current.lchild!=null){
+                q.enQueue(current.lchild);
+            }
+            if(current.rchild!=null){
+                q.enQueue(current.rchild);
+            }
+
+        }
+        System.out.println();
+    }
+
+    public void postOrderIterative(BinaryNode localRoot){
+        if(localRoot==null){
+            return;
+        }else{
+            Stack<BinaryNode> s=new Stack<>();
+            s.push(localRoot);
+            Stack<Integer> out = new Stack<>();
+            BinaryNode current;
+
+            while(!s.isEmpty()){
+                current=s.pop();
+                System.out.println(current.data+" ");
+                out.push(current.data);
+                if (current.lchild != null) {
+                    s.push(current.lchild);
+                }
+        
+                if (current.rchild != null) {
+                    s.push(current.rchild);
+                }
+            }
+            System.out.println("PostOrder Traversal: ");
+            while(!out.isEmpty()){
+                System.out.print(out.pop());
+            }
+
+            }
+        }
+        public void preOrderIterative(BinaryNode localRoot){
+            // return if the tree is empty
+        if (root == null) {
+            return;
+        }
+        Stack<BinaryNode> s = new Stack<>();
+        s.push(root);
+        System.out.println("PreOrder Traversal: ");
+        // loop till stack is empty
+        while (!s.isEmpty())
+        {
+            // pop a node from the stack and print it
+            BinaryNode curr = s.pop();
+    
+            System.out.print(curr.data + " ");
+    
+            // push the right child of the popped node into the stack
+            if (curr.rchild != null) {
+                s.push(curr.rchild);
+            }
+            if (curr.lchild != null) {
+                s.push(curr.rchild);
+            }
+
+        }
+        }
+    }
 
 	
-}
+
 
 public class BinarySearchTree{
     public static void main(String args[]){
         BinarySearch bs=new BinarySearch();
         bs.insert(14);
+        System.out.println(bs.maxDepth(bs.root));
+
         bs.insert(15);
         bs.insert(4);
+        System.out.println(bs.maxDepth(bs.root));
+
         bs.insert(9);
         bs.insert(7);
         bs.insert(18);
@@ -133,6 +300,10 @@ public class BinarySearchTree{
         bs.insert(9);
         bs.insert(14);
         bs.insert(5);
+        bs.search(5);
+        System.out.println(bs.maxDepth(bs.root));
+        bs.postOrderIterative(bs.root);
+        bs.levelOrder(bs.root);
         bs.inOrder(bs.root);
         System.out.println(" ");
         bs.preOrder(bs.root);

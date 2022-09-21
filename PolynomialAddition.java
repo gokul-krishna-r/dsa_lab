@@ -76,7 +76,7 @@ class LinkedList{
 
 
 public class PolynomialAddition {
-    public static LinkedList addPoly(LinkedList l1,LinkedList l2){
+    public  static LinkedList addPoly(LinkedList l1,LinkedList l2){
         LinkedList temp=new LinkedList();
         Link node1=l1.first;
         Link node2=l2.first;

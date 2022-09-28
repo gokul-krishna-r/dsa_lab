@@ -1,6 +1,6 @@
-
 import java.util.*;
 import java.io.*;
+
 class stack{
 	private int top;
 	private int max;
@@ -38,7 +38,6 @@ class postfixev{
 		System.out.println("enter the postfix expression:");
 		Scanner ob=new Scanner(System.in);
 		str=ob.nextLine();
-		
 		stack stck=new stack(str.length());
 		char item;
 		//int temp=0;
@@ -68,9 +67,9 @@ class postfixev{
 					}
 					
 					}
-					}
+		}
 					 //temp+=stck.pop();
 					//return temp;
 					System.out.println("Result:"+stck.pop());
-					}
-					}
+			}
+	}

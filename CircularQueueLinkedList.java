@@ -1,5 +1,3 @@
-import java.io.*;
-import java.nio.file.FileStore;
 import java.util.*;
 
 
@@ -44,7 +42,7 @@ class CircularQueue{
                 first=rear=null;
             }else{
                 first=first.next;
-
+ 
                 rear.next=first;
                 System.out.println("Deleted");
 

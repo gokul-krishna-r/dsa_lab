@@ -25,7 +25,7 @@ class PriorityQueue{
                 arr[j+1]=s;
                 rear++;
             }
-            
+             
         }
     
         public int remove(){

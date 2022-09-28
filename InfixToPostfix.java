@@ -131,7 +131,7 @@ public class InfixToPostfix {
                     System.out.println("------Entered 7"+opThis);
                     stck.push(opThis);
                 }
-            }else{
+            } else{
                 System.out.println("Syntax error");
                 break;
             }

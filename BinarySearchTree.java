@@ -204,19 +204,34 @@ class BinarySearch {
         CircularQueue q=new CircularQueue();
         BinaryNode current=localRoot;
         q.enQueue(current);
+        q.enQueue(null);
         System.out.println("Level Order Traversal: ");
+        int height=0;
         while(!q.isEmpty()){
             current=q.deQueue();
-            System.out.print(current.data+" ");
-            if(current.lchild!=null){
-                q.enQueue(current.lchild);
+            
+            if(current==null){
+                height++;
             }
-            if(current.rchild!=null){
-                q.enQueue(current.rchild);
-            }
+            
+            
+            if(current!=null){
+                System.out.print(current.data+" ");
+                if(current.lchild!=null){
+                    q.enQueue(current.lchild);
+                }
+                if(current.rchild!=null){
+                    q.enQueue(current.rchild);
+                }
+    
 
+            }
+           else if(!q.isEmpty()){
+                q.enQueue(null);
+            }
+{}
         }
-        System.out.println();
+        System.out.println("+++"+height);
     }
 
     public void postOrderIterative(BinaryNode localRoot){
@@ -271,6 +286,16 @@ class BinarySearch {
         }
         }
     }
+
+    public BinaryNode minimumElement(BinaryNode localRoot) {
+        if (localRoot.lchild == null) {
+            return localRoot;
+        } else {
+            return minimumElement(localRoot.lchild);
+        }
+    }
+    
+
     }
 
 	
@@ -300,8 +325,7 @@ public class BinarySearchTree{
         bs.insert(5);
         bs.search(5);
         System.out.println(bs.maxDepth(bs.root));
-        bs.preOrderIterative(bs.root);
-        bs.postOrderIterative(bs.root);
+    
         bs.levelOrder(bs.root);
         bs.inOrder(bs.root);
         System.out.println(" ");
